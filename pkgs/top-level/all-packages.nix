@@ -619,7 +619,7 @@ in
 
   aescrypt = callPackage ../tools/misc/aescrypt { };
 
-  acme-client = callPackage ../tools/networking/acme-client { inherit (darwin) apple_sdk; };
+  acme-client = callPackage ../tools/networking/acme-client { inherit (darwin) apple_sdk; stdenv = gccStdenv; };
 
   amass = callPackage ../tools/networking/amass { };
 
@@ -772,6 +772,8 @@ in
 
   asciinema = callPackage ../tools/misc/asciinema {};
 
+  asciinema-scenario = callPackage ../tools/misc/asciinema-scenario {};
+
   asciiquarium = callPackage ../applications/misc/asciiquarium {};
 
   ashuffle = callPackage ../applications/audio/ashuffle {};
@@ -873,6 +875,8 @@ in
 
   automirror = callPackage ../tools/misc/automirror { };
 
+  barman = python3Packages.callPackage ../tools/misc/barman { };
+
   bash-my-aws = callPackage ../tools/admin/bash-my-aws { };
 
   bashcards = callPackage ../tools/misc/bashcards { };
@@ -926,6 +930,8 @@ in
     withDriver = false;
   };
 
+  chroma = callPackage ../tools/text/chroma { };
+
   clair = callPackage ../tools/admin/clair { };
 
   cloud-sql-proxy = callPackage ../tools/misc/cloud-sql-proxy { };
@@ -947,6 +953,8 @@ in
   claws = callPackage ../tools/misc/claws { };
 
   cloud-custodian = python3Packages.callPackage ../tools/networking/cloud-custodian  { };
+
+  cod = callPackage ../tools/misc/cod { };
 
   codespell = with python3Packages; toPythonApplication codespell;
 
@@ -2694,7 +2702,7 @@ in
 
   circus = callPackage ../tools/networking/circus { };
 
-  citrix_workspace = citrix_workspace_20_06_0;
+  citrix_workspace = citrix_workspace_20_09_0;
 
   inherit (callPackage ../applications/networking/remote/citrix-workspace { })
     citrix_workspace_19_6_0
@@ -2703,6 +2711,7 @@ in
     citrix_workspace_19_12_0
     citrix_workspace_20_04_0
     citrix_workspace_20_06_0
+    citrix_workspace_20_09_0
   ;
 
   citra = libsForQt5.callPackage ../misc/emulators/citra { };
@@ -3400,6 +3409,8 @@ in
   carp = callPackage ../development/compilers/carp { };
 
   cholmod-extra = callPackage ../development/libraries/science/math/cholmod-extra { };
+
+  choose = callPackage ../tools/text/choose { };
 
   emscripten = callPackage ../development/compilers/emscripten { };
 
@@ -9861,6 +9872,8 @@ in
 
   zulip = callPackage ../applications/networking/instant-messengers/zulip { };
 
+  zulip-term = callPackage ../applications/networking/instant-messengers/zulip-term { };
+
   zulu8 = callPackage ../development/compilers/zulu/8.nix { };
   zulu = callPackage ../development/compilers/zulu { };
 
@@ -12149,6 +12162,7 @@ in
   # Multi-arch "drivers" which we want to build for i686.
   driversi686Linux = recurseIntoAttrs {
     inherit (pkgsi686Linux)
+      amdvlk
       mesa
       vaapiIntel
       libvdpau-va-gl
@@ -14574,7 +14588,7 @@ in
   };
 
   opencv4 = callPackage ../development/libraries/opencv/4.x.nix {
-    inherit (darwin.apple_sdk.frameworks) AVFoundation Cocoa VideoDecodeAcceleration;
+    inherit (darwin.apple_sdk.frameworks) AVFoundation Cocoa VideoDecodeAcceleration CoreMedia MediaToolbox;
   };
 
   opencv = opencv4;
@@ -16456,6 +16470,8 @@ in
 
   mattermost-desktop = callPackage ../applications/networking/instant-messengers/mattermost-desktop { };
 
+  mbtileserver = callPackage ../servers/mbtileserver { };
+
   mediatomb = callPackage ../servers/mediatomb { };
 
   memcached = callPackage ../servers/memcached {};
@@ -17841,6 +17857,12 @@ in
 
     systemtap = callPackage ../development/tools/profiling/systemtap { };
 
+    system76 = callPackage ../os-specific/linux/system76 { };
+
+    system76-acpi = callPackage ../os-specific/linux/system76-acpi { };
+
+    system76-io = callPackage ../os-specific/linux/system76-io { };
+
     tmon = callPackage ../os-specific/linux/tmon { };
 
     tp_smapi = callPackage ../os-specific/linux/tp_smapi { };
@@ -18242,6 +18264,8 @@ in
   # pam_bioapi ( see http://www.thinkwiki.org/wiki/How_to_enable_the_fingerprint_reader )
 
   pam_ccreds = callPackage ../os-specific/linux/pam_ccreds { };
+
+  pam_gnupg = callPackage ../os-specific/linux/pam_gnupg { };
 
   pam_krb5 = callPackage ../os-specific/linux/pam_krb5 { };
 
@@ -18979,6 +19003,8 @@ in
   marwaita = callPackage ../data/themes/marwaita { };
 
   marwaita-manjaro = callPackage ../data/themes/marwaita-manjaro { };
+
+  marwaita-peppermint = callPackage ../data/themes/marwaita-peppermint { };
 
   matcha-gtk-theme = callPackage ../data/themes/matcha { };
 
@@ -20134,7 +20160,7 @@ in
 
   electron-cash = libsForQt514.callPackage ../applications/misc/electron-cash { };
 
-  electrum = libsForQt514.callPackage ../applications/misc/electrum { };
+  electrum = libsForQt5.callPackage ../applications/misc/electrum { };
 
   electrum-dash = callPackage ../applications/misc/electrum/dash.nix { };
 
@@ -20236,6 +20262,8 @@ in
   epdfview = callPackage ../applications/misc/epdfview { };
 
   epeg = callPackage ../applications/graphics/epeg { };
+
+  epgstation = callPackage ../applications/video/epgstation { };
 
   inherit (gnome3) epiphany;
 
@@ -20556,11 +20584,9 @@ in
   });
 
   firefox-unwrapped = firefoxPackages.firefox;
-  firefox-esr-68-unwrapped = firefoxPackages.firefox-esr-68;
   firefox-esr-78-unwrapped = firefoxPackages.firefox-esr-78;
   firefox = wrapFirefox firefox-unwrapped { };
   firefox-wayland = wrapFirefox firefox-unwrapped { forceWayland = true; };
-  firefox-esr-68 = wrapFirefox firefox-esr-68-unwrapped { };
   firefox-esr-78 = wrapFirefox firefox-esr-78-unwrapped { };
   firefox-esr = firefox-esr-78;
 
@@ -20908,6 +20934,8 @@ in
 
   hackrf = callPackage ../applications/radio/hackrf { };
 
+  hacksaw = callPackage ../tools/misc/hacksaw {};
+
   hakuneko = callPackage ../tools/misc/hakuneko { };
 
   hamster = callPackage ../applications/misc/hamster { };
@@ -21220,10 +21248,6 @@ in
   inkscape-with-extensions = callPackage ../applications/graphics/inkscape/with-extensions.nix { };
 
   inkscape-extensions = recurseIntoAttrs (callPackages ../applications/graphics/inkscape/extensions.nix {});
-
-  inkscape_0 = callPackage ../applications/graphics/inkscape/0.x.nix {
-    lcms = lcms2;
-  };
 
   inspectrum = libsForQt514.callPackage ../applications/radio/inspectrum { };
 
@@ -23130,6 +23154,8 @@ in
   printrun = callPackage ../applications/misc/printrun { };
 
   prusa-slicer = callPackage ../applications/misc/prusa-slicer { };
+
+  super-slicer = callPackage ../applications/misc/prusa-slicer/super-slicer.nix { };
 
   robustirc-bridge = callPackage ../servers/irc/robustirc-bridge { };
 
@@ -26265,6 +26291,8 @@ in
 
   csxcad = callPackage ../applications/science/electronics/csxcad { };
 
+  flatcam = callPackage ../applications/science/electronics/flatcam { };
+
   fparser = callPackage ../applications/science/electronics/fparser { };
 
   geda = callPackage ../applications/science/electronics/geda {
@@ -27349,6 +27377,8 @@ in
 
   sqsh = callPackage ../development/tools/sqsh { };
 
+  go-swag = callPackage ../development/tools/go-swag { };
+
   go-swagger = callPackage ../development/tools/go-swagger { };
 
   jx = callPackage ../applications/networking/cluster/jx {};
@@ -27664,7 +27694,7 @@ in
   snes9x-gtk = callPackage ../misc/emulators/snes9x-gtk { };
 
   openmsx = callPackage ../misc/emulators/openmsx {
-    python = python27;
+    python = python3;
   };
 
   higan = callPackage ../misc/emulators/higan {
@@ -27952,5 +27982,7 @@ in
   zettlr = callPackage ../applications/misc/zettlr { };
 
   unifi-poller = callPackage ../servers/monitoring/unifi-poller {};
+
+  fac-build = callPackage ../development/tools/build-managers/fac {};
 
 }
