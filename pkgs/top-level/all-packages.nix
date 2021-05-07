@@ -4678,6 +4678,8 @@ in
   frostwire = callPackage ../applications/networking/p2p/frostwire { };
   frostwire-bin = callPackage ../applications/networking/p2p/frostwire/frostwire-bin.nix { };
 
+  fteqcc = callPackage ../games/fteqw/fteqcc.nix { };
+
   ftgl = callPackage ../development/libraries/ftgl {
     inherit (darwin.apple_sdk.frameworks) OpenGL GLUT;
   };
